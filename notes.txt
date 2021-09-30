@@ -1,0 +1,12 @@
+>>> python -m virtualenv venv
+>>> venv\scripts\activate
+(venv)>>> pip install django
+(venv)>>> django-admin startproject expenseapi .
+(venv)>>> pip install djangorestframework
+(venv)>>> pip install python-dotenv
+(venv)>>> pip freeze > requirements.txt
+(venv)>>> python manage.py startapp authentication
+
+
+python manage.py makemigrations ""
+python manage.py migrate
