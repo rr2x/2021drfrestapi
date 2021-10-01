@@ -5,6 +5,7 @@
 (venv)>>> pip install djangorestframework
 (venv)>>> pip install python-dotenv
 (venv)>>> pip install djangorestframework-simplejwt
+(venv)>>> pip install drf-yasg
 (venv)>>> pip freeze > requirements.txt
 (venv)>>> python manage.py startapp authentication
 
