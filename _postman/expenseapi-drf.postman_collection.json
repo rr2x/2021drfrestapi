@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"test-from-postman@email.com\",\r\n    \"username\": \"testfrompostmanuser\",\r\n    \"password\": \"111111\"\r\n}",
+							"raw": "{\r\n    \"email\": \"mailtrapiotest33@email.com\",\r\n    \"username\": \"mailtrapiotest33\",\r\n    \"password\": \"111111\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
-import rest_framework
+load_dotenv()  # WARNING: need to close venv if you are changing .env values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*vuc===q&k%68sbjj+88h&x&6vt298t9m%vesoy8d$4t(!vbn$'
+# value generated from: https://djecrety.ir/
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,9 +35,20 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 AUTH_USER_MODEL = 'authentication.User'  # setup custom user
 
 REST_FRAMEWORK = {
-    'NON_FIELD_ERRORS_KEY': 'error'
+    'NON_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
+
+EMAIL_HOST = os.getenv('EMAIL_HOST')  # used mailtrap.io
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 
 # Application definition
 
