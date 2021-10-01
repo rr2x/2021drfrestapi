@@ -1,13 +1,16 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.conf import settings
 from django.urls import reverse
-from rest_framework import generics, status
+from rest_framework import generics, status, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer
 from .utils import Util
 import jwt
+
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
 class RegisterView(generics.GenericAPIView):
@@ -16,8 +19,8 @@ class RegisterView(generics.GenericAPIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.is_valid(raise_exception=True)  # execute validate()
+        serializer.save()  # execute create()
 
         user_data = serializer.data
 
@@ -42,14 +45,19 @@ class RegisterView(generics.GenericAPIView):
         return Response(user_data, status=status.HTTP_201_CREATED)
 
 
-class VerifyEmail(generics.GenericAPIView):
+# using views.APIView as special case so that api can be used on swagger
+class VerifyEmail(views.APIView):
 
+    serializer_class = EmailVerificationSerializer
+
+    token_param_config = openapi.Parameter(
+        'token', in_=openapi.IN_QUERY, description='the token used for activation', type=openapi.TYPE_STRING)
+
+    @swagger_auto_schema(manual_parameters=[token_param_config])
     def get(self, request):
         token = request.GET.get('token')
 
         try:
-            print(settings.SECRET_KEY)
-            print(token)
             payload = jwt.decode(
                 jwt=token, key=settings.SECRET_KEY, algorithms=['HS256'])
             user = User.objects.get(id=payload['user_id'])
@@ -65,3 +73,14 @@ class VerifyEmail(generics.GenericAPIView):
             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginAPIView(generics.GenericAPIView):
+
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

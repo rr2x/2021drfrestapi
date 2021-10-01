@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"mailtrapiotest33@email.com\",\r\n    \"username\": \"mailtrapiotest33\",\r\n    \"password\": \"111111\"\r\n}",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"username\": \"test\",\r\n    \"password\": \"111111\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -30,6 +30,34 @@
 							"path": [
 								"auth",
 								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{main_url}}/auth/login/",
+							"host": [
+								"{{main_url}}"
+							],
+							"path": [
+								"auth",
+								"login",
 								""
 							]
 						}
