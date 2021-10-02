@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import os
 from dotenv import load_dotenv
+import datetime
+import os
+
 
 load_dotenv()  # WARNING: need to close venv if you are changing .env values
 
@@ -58,6 +60,7 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Bearer': {
@@ -68,6 +71,11 @@ SWAGGER_SETTINGS = {
     }
 }
 
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(minutes=10),
+}
 
 # Application definition
 
@@ -81,7 +89,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'authentication',
-    'expenses'
+    'expenses',
+    'income',
 ]
 
 MIDDLEWARE = [

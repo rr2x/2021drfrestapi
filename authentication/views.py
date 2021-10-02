@@ -4,6 +4,8 @@ from django.urls import reverse
 from rest_framework import generics, status, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from _utils.renderers import UtilRenderer
+
 from .models import User
 from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer
 from .utils import Util
@@ -16,6 +18,7 @@ from drf_yasg.utils import swagger_auto_schema
 class RegisterView(generics.GenericAPIView):
 
     serializer_class = RegisterSerializer
+    renderer_classes = (UtilRenderer,)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -51,6 +54,7 @@ class RegisterView(generics.GenericAPIView):
 class VerifyEmail(views.APIView):
 
     serializer_class = EmailVerificationSerializer
+    renderer_classes = (UtilRenderer,)
 
     token_param_config = openapi.Parameter(
         'token', in_=openapi.IN_QUERY, description='the token used for activation', type=openapi.TYPE_STRING)
@@ -82,6 +86,7 @@ class VerifyEmail(views.APIView):
 class LoginAPIView(generics.GenericAPIView):
 
     serializer_class = LoginSerializer
+    renderer_classes = (UtilRenderer,)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
