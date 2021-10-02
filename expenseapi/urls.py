@@ -37,4 +37,5 @@ urlpatterns = [
         'redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
+    path('expenses/', include('expenses.urls')),
 ]

@@ -35,6 +35,14 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 AUTH_USER_MODEL = 'authentication.User'  # setup custom user
 
 REST_FRAMEWORK = {
+    # using limit and offset
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    #
+    # using page numbers:
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #
+    # default page size displayed:
+    'PAGE_SIZE': 2,
     'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
@@ -50,6 +58,17 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': ' Authorization',
+            'in': 'header',
+        }
+    }
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -61,7 +80,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
-    'authentication'
+    'authentication',
+    'expenses'
 ]
 
 MIDDLEWARE = [
