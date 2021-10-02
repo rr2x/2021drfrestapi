@@ -11,3 +11,9 @@
 
 python manage.py makemigrations ""
 python manage.py migrate
+
+
+swagger (after updating settings):
+  Authorize ->
+    Bearer (apiKey)
+    value: Bearer <tokens.access value from login>
