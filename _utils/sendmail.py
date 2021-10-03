@@ -1,8 +1,10 @@
 from django.core.mail import EmailMessage
 import os
 
+from rest_framework.exceptions import APIException
 
-class Util:
+
+class UtilEmail:
     @staticmethod
     def send_email(data):
 
@@ -16,4 +18,4 @@ class Util:
             email.send(fail_silently=False)
 
         except Exception as e:
-            print(str(e))
+            raise APIException(str(e), 500)
