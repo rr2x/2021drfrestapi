@@ -17,3 +17,6 @@ swagger (after updating settings):
   Authorize ->
     Bearer (apiKey)
     value: Bearer <tokens.access value from login>
+
+
+>>> python manage.py test
