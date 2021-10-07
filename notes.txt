@@ -1,3 +1,4 @@
+>>> pip install virtualenv
 >>> python -m virtualenv venv
 >>> venv\scripts\activate
 (venv)>>> pip install django
@@ -5,13 +6,18 @@
 (venv)>>> pip install djangorestframework
 (venv)>>> pip install python-dotenv
 (venv)>>> pip install djangorestframework-simplejwt
+(venv)>>> pip install Faker
 (venv)>>> pip install drf-yasg
+(venv)>>> pip install django-cors-headers
+(venv)>>> pip uninstall PyJWT
+(venv)>>> pip install PyJWT==2.1.0
 (venv)>>> pip freeze > requirements.txt
 (venv)>>> python manage.py startapp authentication
 
 python manage.py makemigrations ""
 python manage.py migrate
 
+pip list --outdated
 
 swagger (after updating settings):
   Authorize ->

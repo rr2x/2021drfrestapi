@@ -10,7 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from _utils.renderers import UtilRenderer
 
 from .models import User
-from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
+from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer, PasswordTokenCheckAPISerializer, SetNewPasswordSerializer
 from _utils.sendmail import UtilEmail
 import jwt
 
@@ -137,6 +137,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 class PasswordTokenCheckAPI(generics.GenericAPIView):
 
+    serializer_class = PasswordTokenCheckAPISerializer
     renderer_classes = (UtilRenderer,)
 
     # verify received token for reset password

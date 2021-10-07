@@ -78,6 +78,10 @@ class ResetPasswordEmailRequestSerializer(serializers.Serializer):
         fields = ['email']
 
 
+class PasswordTokenCheckAPISerializer(serializers.Serializer):
+    pass  # added so that drf-yasg does not complain
+
+
 class SetNewPasswordSerializer(serializers.Serializer):
     password = serializers.CharField(
         max_length=70, min_length=6, write_only=True)
