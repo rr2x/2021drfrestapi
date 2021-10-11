@@ -40,4 +40,6 @@ urlpatterns = [
     path('expenses/', include('expenses.urls')),
     path('income/', include('income.urls')),
     path('userstats/', include('userstats.urls')),
+    path('social_auth/', include(('social_auth.urls', 'social_auth'),
+                                 namespace="social_auth")),
 ]

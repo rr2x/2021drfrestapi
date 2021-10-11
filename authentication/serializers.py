@@ -42,8 +42,17 @@ class LoginSerializer(serializers.ModelSerializer):
         max_length=70, min_length=6, write_only=True)
     username = serializers.CharField(
         max_length=255, min_length=6, read_only=True)
-    tokens = serializers.CharField(
-        max_length=68, min_length=6, read_only=True)
+    # create a method that is passed on parameter that will transform data
+    # by default this will try to call get_<field_name>
+    # https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
+    tokens = serializers.SerializerMethodField()
+
+    def get_tokens(self, obj):
+        user = User.objects.get(email=obj['email'])
+        return {
+            'access': user.tokens()['access'],
+            'refresh': user.tokens()['refresh']
+        }
 
     class Meta:
         model = User
@@ -52,6 +61,14 @@ class LoginSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         email = attrs.get('email', '')
         password = attrs.get('password', '')
+
+        filtered_user_by_email = User.objects.filter(email=email)
+
+        if filtered_user_by_email[0].auth_provider != 'email':
+            raise AuthenticationFailed(
+                detail='Continue login using ' +
+                filtered_user_by_email[0].auth_provider
+            )
 
         user = auth.authenticate(email=email, password=password)
 

@@ -11,8 +11,13 @@
 (venv)>>> pip install django-cors-headers
 (venv)>>> pip uninstall PyJWT
 (venv)>>> pip install PyJWT==2.1.0
+(venv)>>> pip install google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
+(venv)>>> pip install python-twitter
+(venv)>>> pip install facebook-sdk
 (venv)>>> pip freeze > requirements.txt
 (venv)>>> python manage.py startapp authentication
+
+
 
 python manage.py makemigrations ""
 python manage.py migrate
@@ -26,3 +31,21 @@ swagger (after updating settings):
 
 
 >>> python manage.py test
+
+
+use OAuth 2.0 from  google
+
+for frontend to process google auth:
+<head>
+  <meta
+    name='google-signin-client_id'
+    content='....apps.googleusercontent.com'
+  />
+  <script
+    src='https://apis.gogle.com/js/platform.js' async defer/>
+</head>
+
+
+https://developers.google.com/oauthplayground/
+https://developers.facebook.com/apps/
+https://developer.twitter.com/en/portal/
