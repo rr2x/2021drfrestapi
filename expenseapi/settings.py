@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'expenses',
     'income',
     'userstats',
+    'social_auth'
 ]
 
 MIDDLEWARE = [
