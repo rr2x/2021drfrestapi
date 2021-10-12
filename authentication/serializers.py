@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from .models import User
 from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -64,7 +65,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
         filtered_user_by_email = User.objects.filter(email=email)
 
-        if filtered_user_by_email[0].auth_provider != 'email':
+        if filtered_user_by_email and filtered_user_by_email[0].auth_provider != 'email':
             raise AuthenticationFailed(
                 detail='Continue login using ' +
                 filtered_user_by_email[0].auth_provider
@@ -90,6 +91,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=2)
+    redirect_url = serializers.CharField(max_length=500, required=False)
 
     class Meta:
         fields = ['email']
@@ -127,3 +129,24 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
         except Exception as e:
             raise AuthenticationFailed(str(e), 401)
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    default_error_messages = {
+        'bad_token': ('Token is expired or invalid')
+    }
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            token = RefreshToken(self.token)
+            token.blacklist()
+        except TokenError as te:
+            self.fail(str(te))
+        except Exception as e:
+            self.fail(str(e))

@@ -33,7 +33,7 @@ class ExpenseSummaryStats(APIView):
                 final[category] = self.get_amount_for_category(
                     expenses, category)
 
-        return Response({'category_data': final}, status=status.HTTP_200_OK)
+        return Response({'expense_category_data': final}, status=status.HTTP_200_OK)
 
 
 class IncomeSourcesSummaryStats(APIView):

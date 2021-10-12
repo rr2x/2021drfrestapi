@@ -6,11 +6,20 @@ from django.utils.encoding import DjangoUnicodeDecodeError, smart_bytes, smart_s
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import generics, status, views
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from _utils.renderers import UtilRenderer
 
 from .models import User
-from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer, PasswordTokenCheckAPISerializer, SetNewPasswordSerializer
+from .serializers import (
+    RegisterSerializer,
+    EmailVerificationSerializer,
+    LoginSerializer,
+    ResetPasswordEmailRequestSerializer,
+    PasswordTokenCheckAPISerializer,
+    SetNewPasswordSerializer,
+    LogoutSerializer
+)
 from _utils.sendmail import UtilEmail
 import jwt
 
@@ -167,3 +176,17 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': 'true', 'message': 'password successfully reset'}, status=status.HTTP_200_OK)
+
+
+class LogoutAPIView(generics.GenericAPIView):
+
+    serializer_class = LogoutSerializer
+    renderer_classes = (UtilRenderer,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"message": "no-content"}, status=status.HTTP_204_NO_CONTENT)

@@ -49,3 +49,33 @@ for frontend to process google auth:
 https://developers.google.com/oauthplayground/
 https://developers.facebook.com/apps/
 https://developer.twitter.com/en/portal/
+
+
+import from swagger to postman:
+  after creating chema_view.without_ui()
+  postman -> import -> link
+
+
+note on blacklisting token:
+  every token has an expiration (based on settings),
+  to refresh access_token you need refresh_token
+  the one being blacklisted will be refresh_token
+  so that we can't refresh access_token once it is expired
+
+  to remove tokens that are already expired:
+  >>> python manage.py flushexpiredtokens
+
+
+test data for db.sqlite3
+
+  email: 0@0.com
+  user: 0
+  pass: 0
+
+  email: test1@test1.com
+  user: test1
+  pass: 111111
+
+  email: test2@test2.com
+  user: test2
+  pass: 111111
