@@ -4,8 +4,14 @@ from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from .models import User
 from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.http import HttpResponsePermanentRedirect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
+import os
+
+
+class CustomRedirect(HttpResponsePermanentRedirect):
+    allowed_schemes = [os.getenv('APP_SCHEME'), 'http', 'https']
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -90,6 +96,13 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+
+    class Meta:
+        fields = ['email']
+
+
+class ResetPasswordEmailRequestSerializer_with_redirect(serializers.Serializer):
     email = serializers.EmailField(min_length=2)
     redirect_url = serializers.CharField(max_length=500, required=False)
 
